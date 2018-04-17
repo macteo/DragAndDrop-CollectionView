@@ -44,12 +44,15 @@ class DragDropViewController: UIViewController
         self.collectionView1.dragInteractionEnabled = true
         self.collectionView1.dragDelegate = self
         self.collectionView1.dropDelegate = self
-        
+        let layout =  self.collectionView1.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.itemSize = CGSize(width: self.collectionView1.bounds.width, height: 100)
         //CollectionView-2 drag and drop configuration
         self.collectionView2.dragInteractionEnabled = true
         self.collectionView2.dropDelegate = self
         self.collectionView2.dragDelegate = self
         self.collectionView2.reorderingCadence = .immediate //default value - .immediate
+        let layout2 =  self.collectionView2.collectionViewLayout as! UICollectionViewFlowLayout
+        layout2.itemSize = CGSize(width: self.collectionView2.bounds.width, height: 100)
     }
     
     //MARK: Private Methods
@@ -244,12 +247,12 @@ extension DragDropViewController : UICollectionViewDragDelegate
     
     func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters?
     {
-        if collectionView == collectionView1
-        {
-            let previewParameters = UIDragPreviewParameters()
-            previewParameters.visiblePath = UIBezierPath(rect: CGRect(x: 25, y: 25, width: 120, height: 120))
-            return previewParameters
-        }
+//        if collectionView == collectionView1
+//        {
+//            let previewParameters = UIDragPreviewParameters()
+//            previewParameters.visiblePath = UIBezierPath(rect: CGRect(x: 25, y: 25, width: 120, height: 120))
+//            return previewParameters
+//        }
         return nil
     }
 }
