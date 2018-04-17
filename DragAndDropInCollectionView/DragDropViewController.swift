@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Cell : Equatable {
+class Cell : Equatable {
     var name : String
     var list : Int = 0
     
@@ -141,7 +141,26 @@ class DragDropViewController: UIViewController
             for (index, item) in coordinator.items.enumerated()
             {
                 let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-                let localObject = item.dragItem.localObject as! Cell
+                var newObject = item.dragItem.localObject as? Cell
+                if newObject == nil {
+                    guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
+                    newObject = Cell("temp-\(index)")
+                    item.dragItem.itemProvider.loadObject(ofClass: NSString.self, completionHandler: { (object, error) in
+                        if let string = object as? String {
+                            DispatchQueue.main.async {
+                                newObject?.name = string
+                                print(indexPath.row)
+                                collectionView.reloadItems(at: [indexPath])
+                                print("reload")
+                            }
+                        }
+                    })
+                    if collectionView == collectionView2 {
+                        newObject?.list = 1
+                    }
+                }
+                
+                guard let localObject = newObject else { return }
                 
                 if localObject.list == 0 {
                     if let indexOf = items1.index(where: { $0.name == localObject.name }) {
@@ -193,6 +212,7 @@ class DragDropViewController: UIViewController
             collectionView2.deleteItems(at: coll2IndexPathsTBR)
             collectionView2.insertItems(at: coll2IndexPathsTBA)
         })
+        print("end")
     }
 }
 
@@ -261,7 +281,6 @@ extension DragDropViewController : UICollectionViewDropDelegate
 {
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool
     {
-        
         return session.canLoadObjects(ofClass: NSString.self)
     }
     
