@@ -138,7 +138,6 @@ class DragDropViewController: UIViewController
         var items2TBR = [Cell]()
         var items2TBA = [Cell]()
         // collectionView.performBatchUpdates({
-            var indexPaths = [IndexPath]()
             for (index, item) in coordinator.items.enumerated()
             {
                 let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
@@ -262,33 +261,19 @@ extension DragDropViewController : UICollectionViewDropDelegate
 {
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool
     {
+        
         return session.canLoadObjects(ofClass: NSString.self)
     }
     
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal
     {
-        if collectionView === self.collectionView1
+        if collectionView.hasActiveDrag
         {
-            if collectionView.hasActiveDrag
-            {
-                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-            }
-            else
-            {
-                return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-                // return UICollectionViewDropProposal(operation: .forbidden)
-            }
+            return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
         }
         else
         {
-            if collectionView.hasActiveDrag
-            {
-                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-            }
-            else
-            {
-                return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-            }
+            return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
         }
     }
     
