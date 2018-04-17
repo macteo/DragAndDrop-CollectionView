@@ -23,6 +23,10 @@ class Cell : Equatable {
 
 class DragDropViewController: UIViewController
 {
+    @IBAction func reloadData(_ sender: UIBarButtonItem) {
+        collectionView1.reloadData()
+        collectionView2.reloadData()
+    }
     //MARK: Private Properties
     //Data Source for CollectionView-1
     
@@ -132,77 +136,70 @@ class DragDropViewController: UIViewController
         var coll1IndexPathsTBR = [IndexPath]()
         var coll1IndexPathsTBA = [IndexPath]()
         var items1TBR = [Cell]()
-        var items1TBA = [Cell]()
+        var items1TBA = [Int: Cell]()
         var coll2IndexPathsTBR = [IndexPath]()
         var coll2IndexPathsTBA = [IndexPath]()
         var items2TBR = [Cell]()
-        var items2TBA = [Cell]()
-        // collectionView.performBatchUpdates({
-            for (index, item) in coordinator.items.enumerated()
-            {
-                let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-                var newObject = item.dragItem.localObject as? Cell
-                if newObject == nil {
-                    guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
-                    newObject = Cell("temp-\(index)")
-                    item.dragItem.itemProvider.loadObject(ofClass: NSString.self, completionHandler: { (object, error) in
-                        if let string = object as? String {
-                            DispatchQueue.main.async {
-                                newObject?.name = string
-                                print(indexPath.row)
-                                collectionView.reloadItems(at: [indexPath])
-                                print("reload")
-                            }
+        var items2TBA = [Int: Cell]()
+        for (index, item) in coordinator.items.enumerated()
+        {
+            let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
+            var newObject = item.dragItem.localObject as? Cell
+            if newObject == nil {
+                guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
+                newObject = Cell("temp-\(index)")
+                item.dragItem.itemProvider.loadObject(ofClass: NSString.self, completionHandler: { (object, error) in
+                    if let string = object as? String {
+                        DispatchQueue.main.async {
+                            newObject?.name = string
+                            collectionView.reloadItems(at: [indexPath])
                         }
-                    })
-                    if collectionView == collectionView2 {
-                        newObject?.list = 1
                     }
+                })
+                if collectionView == collectionView2 {
+                    newObject?.list = 1
                 }
-                
-                guard let localObject = newObject else { return }
-                
-                if localObject.list == 0 {
-                    if let indexOf = items1.index(where: { $0.name == localObject.name }) {
-                        items1TBR.append(localObject)
-                        // items1.remove(at: indexOf)
-                        coll1IndexPathsTBR.append(IndexPath(item: indexOf, section: 0))
-                    }
-                } else {
-                    if let indexOf = items2.index(where: { $0.name == localObject.name }) {
-                        items2TBR.append(localObject)
-                        // items2.remove(at: indexOf)
-                        coll2IndexPathsTBR.append(IndexPath(item: indexOf, section: 0))
-                    }
-                }
-                
-                if collectionView === self.collectionView2
-                {
-                    var editedObject = localObject
-                    editedObject.list = 1
-                    items2TBA.append(editedObject)
-                    // self.items2.insert(editedObject, at: indexPath.row)
-                    coll2IndexPathsTBA.append(indexPath)
-                }
-                else
-                {
-                    var editedObject = localObject
-                    editedObject.list = 0
-
-                    items1TBA.append(editedObject)
-                    // self.items1.insert(editedObject, at: indexPath.row)
-                    coll1IndexPathsTBA.append(indexPath)
-                }
-                // indexPaths.append(indexPath)
             }
-            // collectionView.insertItems(at: indexPaths)
-        // })
+            
+            guard let localObject = newObject else { return }
+            
+            if localObject.list == 0 {
+                if let indexOf = items1.index(where: { $0.name == localObject.name }) {
+                    items1TBR.append(localObject)
+                    coll1IndexPathsTBR.append(IndexPath(item: indexOf, section: 0))
+                }
+            } else {
+                if let indexOf = items2.index(where: { $0.name == localObject.name }) {
+                    items2TBR.append(localObject)
+                    coll2IndexPathsTBR.append(IndexPath(item: indexOf, section: 0))
+                }
+            }
+            
+            if collectionView === self.collectionView2
+            {
+                let editedObject = localObject
+                editedObject.list = 1
+                items2TBA[indexPath.row] = editedObject
+                coll2IndexPathsTBA.append(indexPath)
+            }
+            else
+            {
+                let editedObject = localObject
+                editedObject.list = 0
+                items1TBA[indexPath.row] = editedObject
+                coll1IndexPathsTBA.append(indexPath)
+            }
+        }
         
         items1 = items1.filter { !items1TBR.contains($0) }
-        items1.append(contentsOf: items1TBA)
+        items1TBA.forEach { (index, cell) in
+            items1.insert(cell, at: index)
+        }
         
         items2 = items2.filter { !items2TBR.contains($0) }
-        items2.append(contentsOf: items2TBA)
+        items2TBA.forEach { (index, cell) in
+            items2.insert(cell, at: index)
+        }
         
         collectionView1.performBatchUpdates({
             collectionView1.deleteItems(at: coll1IndexPathsTBR)
@@ -212,7 +209,6 @@ class DragDropViewController: UIViewController
             collectionView2.deleteItems(at: coll2IndexPathsTBR)
             collectionView2.insertItems(at: coll2IndexPathsTBA)
         })
-        print("end")
     }
 }
 
