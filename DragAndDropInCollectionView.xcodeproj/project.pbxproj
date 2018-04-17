@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95EA379F2086549B00164F66 /* ListCollectionViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EA379E2086549B00164F66 /* ListCollectionViewControllerManager.swift */; };
 		95FB2788208633FE00B7C296 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB2787208633FE00B7C296 /* ListViewController.swift */; };
 		95FB278A2086379200B7C296 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB27892086379200B7C296 /* Cell.swift */; };
 		95FB278C2086383200B7C296 /* ListViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB278B2086383200B7C296 /* ListViewControllerManager.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		95EA379E2086549B00164F66 /* ListCollectionViewControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewControllerManager.swift; sourceTree = "<group>"; };
 		95FB2787208633FE00B7C296 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		95FB27892086379200B7C296 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		95FB278B2086383200B7C296 /* ListViewControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerManager.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				95FB278D2086389600B7C296 /* ListDelegate.swift */,
 				95FB27932086536E00B7C296 /* ListManager.swift */,
 				95FB278F208646CA00B7C296 /* ListOperations.swift */,
+				95EA379E2086549B00164F66 /* ListCollectionViewControllerManager.swift */,
 				95FB27912086495F00B7C296 /* ListCell.swift */,
 				95FB27892086379200B7C296 /* Cell.swift */,
 				BD8FA1821FB0912200B6C3C8 /* Main.storyboard */,
@@ -164,6 +167,7 @@
 				95FB278E2086389600B7C296 /* ListDelegate.swift in Sources */,
 				95FB278C2086383200B7C296 /* ListViewControllerManager.swift in Sources */,
 				BDA631AC1FB31A3700A9DCF6 /* DragDropCollectionViewCell.swift in Sources */,
+				95EA379F2086549B00164F66 /* ListCollectionViewControllerManager.swift in Sources */,
 				95FB278A2086379200B7C296 /* Cell.swift in Sources */,
 				95FB2788208633FE00B7C296 /* ListViewController.swift in Sources */,
 				95FB27922086495F00B7C296 /* ListCell.swift in Sources */,

@@ -33,6 +33,8 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         
         collectionView.frame = view.bounds
+        collectionView.backgroundColor = .white
+        collectionView.clipsToBounds = false
         view.addSubview(collectionView)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         

@@ -22,6 +22,8 @@ class ListCell: UICollectionViewCell {
     }
     
     func commonInit() {
+        layer.masksToBounds = true
+        layer.cornerRadius = 8
         customImageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         customImageView.contentMode = .scaleAspectFit
         customImageView.frame = bounds
