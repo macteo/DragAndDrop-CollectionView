@@ -21,6 +21,8 @@ class Cell : Equatable {
     }
 }
 
+// FIXME: still need to fix an issue related to sorting with a phantom cell appearing while dragging, causing a crash
+
 class DragDropViewController: UIViewController
 {
     @IBAction func reloadData(_ sender: UIBarButtonItem) {
@@ -193,12 +195,21 @@ class DragDropViewController: UIViewController
         
         items1 = items1.filter { !items1TBR.contains($0) }
         items1TBA.forEach { (index, cell) in
-            items1.insert(cell, at: index)
+            if items1.count < index {
+                items1.append(cell)
+            } else {
+                items1.insert(cell, at: index)
+            }
+            
         }
-        
+        // FIXME: crashed here with Array index out of range
         items2 = items2.filter { !items2TBR.contains($0) }
         items2TBA.forEach { (index, cell) in
-            items2.insert(cell, at: index)
+            if items2.count < index {
+                items2.append(cell)
+            } else {
+                items2.insert(cell, at: index)
+            }
         }
         
         collectionView1.performBatchUpdates({
