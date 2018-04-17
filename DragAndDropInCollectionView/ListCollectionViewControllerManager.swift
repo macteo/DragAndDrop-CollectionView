@@ -54,10 +54,20 @@ class ListCollectionViewControllerManager: UICollectionViewController, UICollect
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         
+        let header = UILabel(frame: CGRect(x: 0, y: 0, width: cell.bounds.width, height: 44))
+        header.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
+        header.layer.masksToBounds = true
+        header.layer.cornerRadius = 8
+        header.textColor = .white
+        header.textAlignment = .center
+        header.backgroundColor = UIColor.blue.withAlphaComponent(0.5)
+        header.text = "Section \(indexPath.row)"
+        cell.contentView.addSubview(header)
+        
         guard let controller = listManager.listControllers[indexPath.row] as? ListViewController else { return cell }
         controller.index = indexPath.row
-        controller.view.frame = cell.bounds
-        cell.addSubview(controller.view)
+        controller.view.frame = CGRect(x: 0, y: 54, width: cell.bounds.width, height: cell.bounds.height - 54)
+        cell.contentView.addSubview(controller.view)
         controller.didMove(toParentViewController: self)
         
         return cell
