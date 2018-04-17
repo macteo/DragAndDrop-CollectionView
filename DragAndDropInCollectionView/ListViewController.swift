@@ -16,7 +16,7 @@ protocol ListController : class {
     func removeItem(at index: Int)
     func insert(item: Cell, at index: Int)
     func performOperations()
-    var manager : ListViewControllerManager? { get set }
+    var delegate : ListDelegate? { get set }
 }
 
 class ListViewController: UIViewController {
@@ -27,7 +27,7 @@ class ListViewController: UIViewController {
     
     var listOperations = ListOperations()
     
-    var manager : ListViewControllerManager?
+    var delegate : ListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,7 +150,7 @@ extension ListViewController: UICollectionViewDropDelegate {
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator)
     {
-        guard let manager = self.manager else { return }
+        guard let delegate = self.delegate else { return }
 
         let destinationIndexPath: IndexPath
         if let indexPath = coordinator.destinationIndexPath {
@@ -165,12 +165,12 @@ extension ListViewController: UICollectionViewDropDelegate {
         switch coordinator.proposal.operation
         {
         case .move:
-            manager.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, collectionView: collectionView, listController: self)
+            delegate.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, collectionView: collectionView, listController: self)
             break
         case .copy:
             // Those are mutually exclusive, you can copy or move between collectionViews
-            // manager.copyItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView, listController: self)
-            manager.transferItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView, listController: self)
+            // delegate.copyItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView, listController: self)
+            delegate.transferItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView, listController: self)
             break
         default:
             return
