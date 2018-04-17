@@ -7,20 +7,6 @@
 //
 
 import UIKit
-
-class Cell : Equatable {
-    var name : String
-    var list : Int = 0
-    
-    init(_ name: String) {
-        self.name = name
-    }
-    
-    public static func == (lhs: Cell, rhs: Cell) -> Bool {
-        return lhs.name == rhs.name
-    }
-}
-
 // FIXME: still need to fix an issue related to sorting with a phantom cell appearing while dragging, causing a crash
 
 class DragDropViewController: UIViewController
