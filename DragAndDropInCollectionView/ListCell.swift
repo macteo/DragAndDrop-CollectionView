@@ -9,7 +9,6 @@
 import UIKit
 
 class ListCell: UICollectionViewCell {
-    let customImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
     let customLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
     
     override init(frame: CGRect) {
@@ -24,12 +23,9 @@ class ListCell: UICollectionViewCell {
     func commonInit() {
         layer.masksToBounds = true
         layer.cornerRadius = 8
-        customImageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        customImageView.contentMode = .scaleAspectFit
-        customImageView.frame = bounds
-        addSubview(customImageView)
         
         customLabel.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
+        customLabel.textAlignment = .center
         customLabel.frame = CGRect(x: 0, y: bounds.size.height - 22, width: bounds.size.width, height: 22)
         customLabel.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         customLabel.text = "tmp"

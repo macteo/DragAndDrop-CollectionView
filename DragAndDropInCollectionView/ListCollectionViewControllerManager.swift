@@ -21,7 +21,7 @@ class ListCollectionViewControllerManager: UICollectionViewController, UICollect
         self.collectionView?.clipsToBounds = false
         
         let forged = forgeController()
-        forged.items = [Cell("none"), Cell("chrome"), Cell("fade"), Cell("falseColor"), Cell("instant"), Cell("mono"), Cell("noir"), Cell("process"), Cell("sepia"), Cell("tonal"), Cell("transfer")]
+        forged.items = [Cell("orange"), Cell("red"), Cell("green"), Cell("cyan"), Cell("green"), Cell("red"), Cell("orange"), Cell("magenta"), Cell("purple"), Cell("purple"), Cell("orange")]
         
         for _ in 1...3 {
             let _ = forgeController()

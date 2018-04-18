@@ -102,7 +102,7 @@ extension ListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
-        cell.customImageView.image = UIImage(named: items[indexPath.row].name)
+        cell.backgroundColor = items[indexPath.row].color
         cell.customLabel.text = items[indexPath.row].name.capitalized
         return cell
     }
