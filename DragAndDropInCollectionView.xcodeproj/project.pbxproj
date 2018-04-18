@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		95EA379F2086549B00164F66 /* ListCollectionViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EA379E2086549B00164F66 /* ListCollectionViewControllerManager.swift */; };
+		95E94559208791E0009A1E0F /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E94558208791E0009A1E0F /* ListController.swift */; };
+		95E9455B208792C1009A1E0F /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E9455A208792C1009A1E0F /* ListCell.swift */; };
+		95EA379F2086549B00164F66 /* ColumnsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EA379E2086549B00164F66 /* ColumnsController.swift */; };
 		95FB2788208633FE00B7C296 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB2787208633FE00B7C296 /* ListViewController.swift */; };
 		95FB278A2086379200B7C296 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB27892086379200B7C296 /* Cell.swift */; };
-		95FB278C2086383200B7C296 /* ListViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB278B2086383200B7C296 /* ListViewControllerManager.swift */; };
 		95FB278E2086389600B7C296 /* ListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB278D2086389600B7C296 /* ListDelegate.swift */; };
 		95FB2790208646CA00B7C296 /* ListOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB278F208646CA00B7C296 /* ListOperations.swift */; };
-		95FB27922086495F00B7C296 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB27912086495F00B7C296 /* ListCell.swift */; };
 		95FB27942086536E00B7C296 /* ListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB27932086536E00B7C296 /* ListManager.swift */; };
 		BD8FA17F1FB0912200B6C3C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8FA17E1FB0912200B6C3C8 /* AppDelegate.swift */; };
 		BD8FA1841FB0912200B6C3C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD8FA1821FB0912200B6C3C8 /* Main.storyboard */; };
@@ -22,13 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		95EA379E2086549B00164F66 /* ListCollectionViewControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewControllerManager.swift; sourceTree = "<group>"; };
+		95E94558208791E0009A1E0F /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
+		95E9455A208792C1009A1E0F /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		95EA379E2086549B00164F66 /* ColumnsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnsController.swift; sourceTree = "<group>"; };
 		95FB2787208633FE00B7C296 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		95FB27892086379200B7C296 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
-		95FB278B2086383200B7C296 /* ListViewControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerManager.swift; sourceTree = "<group>"; };
 		95FB278D2086389600B7C296 /* ListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDelegate.swift; sourceTree = "<group>"; };
 		95FB278F208646CA00B7C296 /* ListOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOperations.swift; sourceTree = "<group>"; };
-		95FB27912086495F00B7C296 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		95FB27932086536E00B7C296 /* ListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListManager.swift; sourceTree = "<group>"; };
 		BD8FA17B1FB0912200B6C3C8 /* DragAndDropInCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragAndDropInCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD8FA17E1FB0912200B6C3C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,14 +69,14 @@
 			isa = PBXGroup;
 			children = (
 				BD8FA17E1FB0912200B6C3C8 /* AppDelegate.swift */,
+				95EA379E2086549B00164F66 /* ColumnsController.swift */,
 				95FB2787208633FE00B7C296 /* ListViewController.swift */,
-				95FB278B2086383200B7C296 /* ListViewControllerManager.swift */,
+				95E94558208791E0009A1E0F /* ListController.swift */,
 				95FB278D2086389600B7C296 /* ListDelegate.swift */,
 				95FB27932086536E00B7C296 /* ListManager.swift */,
 				95FB278F208646CA00B7C296 /* ListOperations.swift */,
-				95EA379E2086549B00164F66 /* ListCollectionViewControllerManager.swift */,
-				95FB27912086495F00B7C296 /* ListCell.swift */,
 				95FB27892086379200B7C296 /* Cell.swift */,
+				95E9455A208792C1009A1E0F /* ListCell.swift */,
 				BD8FA1821FB0912200B6C3C8 /* Main.storyboard */,
 				BD8FA1851FB0912200B6C3C8 /* Assets.xcassets */,
 				BD8FA1871FB0912200B6C3C8 /* LaunchScreen.storyboard */,
@@ -158,13 +158,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				95FB278E2086389600B7C296 /* ListDelegate.swift in Sources */,
-				95FB278C2086383200B7C296 /* ListViewControllerManager.swift in Sources */,
-				95EA379F2086549B00164F66 /* ListCollectionViewControllerManager.swift in Sources */,
+				95EA379F2086549B00164F66 /* ColumnsController.swift in Sources */,
 				95FB278A2086379200B7C296 /* Cell.swift in Sources */,
 				95FB2788208633FE00B7C296 /* ListViewController.swift in Sources */,
-				95FB27922086495F00B7C296 /* ListCell.swift in Sources */,
 				BD8FA17F1FB0912200B6C3C8 /* AppDelegate.swift in Sources */,
 				95FB2790208646CA00B7C296 /* ListOperations.swift in Sources */,
+				95E9455B208792C1009A1E0F /* ListCell.swift in Sources */,
+				95E94559208791E0009A1E0F /* ListController.swift in Sources */,
 				95FB27942086536E00B7C296 /* ListManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

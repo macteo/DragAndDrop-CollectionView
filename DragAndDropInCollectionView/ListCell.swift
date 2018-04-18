@@ -18,11 +18,12 @@ class ListCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
     }
     
     func commonInit() {
         layer.masksToBounds = true
-        layer.cornerRadius = 8
+        layer.cornerRadius = 4
         
         customLabel.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
         customLabel.textAlignment = .center

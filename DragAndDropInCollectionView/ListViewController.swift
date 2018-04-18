@@ -8,17 +8,6 @@
 
 import UIKit
 
-protocol ListController : class {
-    // TODO: this needs to be managed in a better way to control access
-    var items : [Cell] { get set }
-    var listOperations : ListOperations { get set }
-    var index : Int { get set }
-    func removeItem(at index: Int)
-    func insert(item: Cell, at index: Int)
-    func performOperations()
-    var delegate : ListDelegate? { get set }
-}
-
 class ListViewController: UIViewController {
     let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -44,6 +33,13 @@ class ListViewController: UIViewController {
         collectionView.dragInteractionEnabled = true
         collectionView.dragDelegate = self
         collectionView.dropDelegate = self
+        collectionView.backgroundColor = .clear // TODO: should be set the same color of the container
+        
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+            layout.minimumLineSpacing = 4
+            layout.minimumInteritemSpacing = 4
+        }
         
         resetOperations()
         
@@ -53,7 +49,7 @@ class ListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: collectionView.bounds.size.width, height: 100)
+        layout.itemSize = CGSize(width: collectionView.bounds.size.width - 8, height: 100)
     }
 }
 

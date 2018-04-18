@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class ListCollectionViewControllerManager: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     let listManager = ListManager()
     
     @IBAction func reload(_ sender: UIBarButtonItem) {
@@ -27,7 +27,7 @@ class ListCollectionViewControllerManager: UICollectionViewController, UICollect
         self.collectionView?.clipsToBounds = false
         
         let forged = forgeController()
-        forged.items = [Cell("orange"), Cell("red"), Cell("green"), Cell("cyan"), Cell("green"), Cell("orange")]
+        forged.items = [Cell("orange"), Cell("red"), Cell("green"), Cell("cyan"), Cell("green"), Cell("orange"), Cell("brown"), Cell("blue"), Cell("orange")]
         
         for _ in 1...3 {
             let _ = forgeController()
@@ -60,21 +60,32 @@ class ListCollectionViewControllerManager: UICollectionViewController, UICollect
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         
+        let color = UIColor(red: 229/255, green: 229/255, blue: 229/255, alpha: 1)
+        
         let header = UILabel(frame: CGRect(x: 0, y: 0, width: cell.bounds.width, height: 44))
         header.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
         header.layer.masksToBounds = true
-        header.layer.cornerRadius = 8
-        header.textColor = .white
+        header.layer.cornerRadius = 4
+        header.textColor = .darkGray
         header.textAlignment = .center
-        header.backgroundColor = UIColor.blue.withAlphaComponent(0.5)
+        header.backgroundColor = color
         header.text = "Section \(indexPath.row)"
         cell.contentView.addSubview(header)
         
         guard let controller = listManager.listControllers[indexPath.row] as? ListViewController else { return cell }
         controller.index = indexPath.row
-        controller.view.frame = CGRect(x: 0, y: 54, width: cell.bounds.width, height: cell.bounds.height - 54)
+        controller.view.frame = CGRect(x: 0, y: 44, width: cell.bounds.width, height: cell.bounds.height - 44)
         cell.contentView.addSubview(controller.view)
         controller.didMove(toParentViewController: self)
+        
+        cell.contentView.bringSubview(toFront: header)
+        cell.clipsToBounds = true
+        
+        cell.layer.borderColor = color.cgColor
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 4
+        // TODO: choose an appropriate color
+        cell.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
         
         return cell
     }
