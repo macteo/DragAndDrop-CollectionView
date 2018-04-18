@@ -11,12 +11,11 @@ import UIKit
 class Cell : Equatable {
     var name : String
     var color : UIColor?
-    var identifier: UUID
+    var identifier = UUID()
     var list : Int = 0
     
     init(_ name: String) {
         self.name = name
-        self.identifier = UUID()
         if let color = color(with: name) {
             self.color = color
         } else {
@@ -27,11 +26,10 @@ class Cell : Equatable {
     init(_ name: String, color: UIColor) {
         self.name = name
         self.color = color
-        self.identifier = UUID()
     }
     
     public static func == (lhs: Cell, rhs: Cell) -> Bool {
-        return lhs.name == rhs.name && lhs.color == rhs.color && lhs.identifier == rhs.identifier
+        return lhs.identifier == rhs.identifier
     }
     
     // TODO: move to a UIColor extension

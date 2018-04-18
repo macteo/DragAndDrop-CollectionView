@@ -20,7 +20,7 @@ protocol ListController : class {
 }
 
 class ListViewController: UIViewController {
-    private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
+    let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
     
     var items = [Cell]()
     var index : Int = 0

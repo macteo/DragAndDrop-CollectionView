@@ -13,6 +13,12 @@ private let reuseIdentifier = "Cell"
 class ListCollectionViewControllerManager: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     let listManager = ListManager()
     
+    @IBAction func reload(_ sender: UIBarButtonItem) {
+        listManager.listControllers.forEach { (controller) in
+            (controller as! ListViewController).collectionView.reloadData()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +27,7 @@ class ListCollectionViewControllerManager: UICollectionViewController, UICollect
         self.collectionView?.clipsToBounds = false
         
         let forged = forgeController()
-        forged.items = [Cell("orange"), Cell("red"), Cell("green"), Cell("cyan"), Cell("green"), Cell("red"), Cell("orange"), Cell("magenta"), Cell("purple"), Cell("purple"), Cell("orange")]
+        forged.items = [Cell("orange"), Cell("red"), Cell("green"), Cell("cyan"), Cell("green"), Cell("orange")]
         
         for _ in 1...3 {
             let _ = forgeController()

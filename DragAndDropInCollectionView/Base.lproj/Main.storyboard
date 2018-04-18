@@ -109,7 +109,13 @@
                             <outlet property="delegate" destination="dsc-v0-mU4" id="ltf-BO-mdz"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="Zkb-jB-G2x"/>
+                    <navigationItem key="navigationItem" id="Zkb-jB-G2x">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="sN0-bg-hmP">
+                            <connections>
+                                <action selector="reload:" destination="dsc-v0-mU4" id="Jmy-YN-cyj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3il-cA-K6J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

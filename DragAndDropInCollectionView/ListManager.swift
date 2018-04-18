@@ -12,6 +12,13 @@ class ListManager {
     var listControllers = [ListController]()
 }
 
+// FIXME: drag of two cells with the same color.
+// We had two stacked cells.
+// We are also experiencing wrong cell removal (index -1 instead of the right one)
+// Going back it crashes miresably. Even reloading the data.
+// At least we found it.
+// It seems to try to remove two times the same index path (from the source collection)
+
 extension ListManager: ListDelegate {
     
     /// This method moves a cell from source indexPath to destination indexPath within the same collection view. It works for only 1 item. If multiple items selected, no reordering happens.
