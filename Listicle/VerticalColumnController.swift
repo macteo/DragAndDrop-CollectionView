@@ -11,12 +11,16 @@ import UIKit
 fileprivate let coloredCellReuseIdentifier = "coloredCellReuseIdentifier"
 
 class VerticalColumnController : ListViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.register(ListCell.self, forCellWithReuseIdentifier: coloredCellReuseIdentifier)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         collectionView.backgroundColor = .clear
-        
-        collectionView.register(ListCell.self, forCellWithReuseIdentifier: coloredCellReuseIdentifier)
         
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         layout.itemSize = CGSize(width: collectionView.bounds.size.width - 8, height: 100)

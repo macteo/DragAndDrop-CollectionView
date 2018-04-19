@@ -8,10 +8,37 @@
 
 import UIKit
 
-fileprivate let reuseIdentifier = "Cell"
+fileprivate let reuseIdentifier = "columnCell"
 
 class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     let listManager = ListManager<ColoredItem>()
+    fileprivate var didLoad = false
+    
+    @IBAction func appendColumn() {
+        addColumn(at: listManager.listControllers.count)
+    }
+    
+    func addColumn(at index: Int) {
+        let controller = forgeController()
+        listManager.listControllers.append(controller)
+        guard didLoad else { return }
+        collectionView?.performBatchUpdates({
+            collectionView?.insertItems(at: [IndexPath(row: index, section: 0)])
+        })
+    }
+    
+    func deleteColumn(at index: Int) {
+        let listController = listManager.listControllers[index]
+        guard let controller = listController as? UIViewController else { return }
+        controller.willMove(toParentViewController: nil)
+        controller.view.removeFromSuperview()
+        controller.removeFromParentViewController()
+        listManager.listControllers.remove(at: index)
+        guard didLoad else { return }
+        collectionView?.performBatchUpdates({
+          collectionView?.deleteItems(at: [IndexPath(row: index, section: 0)])
+        })
+    }
     
     @IBAction func reload(_ sender: UIBarButtonItem) {
         listManager.listControllers.forEach { (controller) in
@@ -28,10 +55,17 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         
         let forged = forgeController()
         forged.items = [ColoredItem("orange"), ColoredItem("red"), ColoredItem("green"), ColoredItem("cyan"), ColoredItem("green"), ColoredItem("orange"), ColoredItem("brown"), ColoredItem("blue"), ColoredItem("orange"), ColoredItem()]
+        listManager.listControllers.append(forged)
         
-        for _ in 1...3 {
-            let _ = forgeController()
+        for _ in 1...2 {
+            appendColumn()
         }
+        
+        didLoad = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -43,7 +77,6 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         addChildViewController(controller)
         controller.delegate = listManager
         controller.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        listManager.listControllers.append(controller)
         return controller
     }
     
@@ -72,7 +105,17 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         header.text = "Section \(indexPath.row)"
         cell.contentView.addSubview(header)
         
-        guard let controller = listManager.listControllers[indexPath.row] as? ListViewController else { return cell }
+        let deleteButton = UIButton(frame: CGRect(x: header.frame.size.width - 32 - 6, y: 6, width: 32, height: 32))
+        deleteButton.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
+        deleteButton.setTitle(NSLocalizedString("Ⓧ", comment: "Delete column button title"), for: .normal)
+        deleteButton.setTitleColor(header.textColor, for: .normal)
+        deleteButton.add(for: .touchUpInside) {
+            self.deleteColumn(at: indexPath.row)
+        }
+        
+        cell.contentView.addSubview(deleteButton)
+        
+        guard let controller = listManager.listControllers[indexPath.row] as? VerticalColumnController else { return cell }
         controller.index = indexPath.row
         controller.view.frame = CGRect(x: 0, y: 44, width: cell.bounds.width, height: cell.bounds.height - 44)
         cell.contentView.addSubview(controller.view)
@@ -86,6 +129,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         cell.layer.cornerRadius = 4
         cell.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
         
+        cell.contentView.bringSubview(toFront: deleteButton)
         return cell
     }
 }
