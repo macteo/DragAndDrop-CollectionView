@@ -13,5 +13,6 @@ protocol ListController : class {
     var listOperations : ListOperations<DraggableItem> { get set }
     var index : Int { get set }
     var delegate : ListDelegate? { get set }
+    func reloadData()
     func performOperations()
 }

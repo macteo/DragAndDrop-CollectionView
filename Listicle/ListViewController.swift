@@ -10,6 +10,7 @@ import UIKit
 
 fileprivate let listReuseIdentifier = "listCell"
 
+// TODO: make this subclassable with cell abstractions
 class ListViewController: UIViewController {
     let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -24,7 +25,6 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         
         collectionView.frame = view.bounds
-        collectionView.backgroundColor = .white
         collectionView.clipsToBounds = false
         view.addSubview(collectionView)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -35,13 +35,6 @@ class ListViewController: UIViewController {
         collectionView.dragInteractionEnabled = true
         collectionView.dragDelegate = self
         collectionView.dropDelegate = self
-        collectionView.backgroundColor = .clear // TODO: should be set the same color of the container
-        
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-            layout.minimumLineSpacing = 4
-            layout.minimumInteritemSpacing = 4
-        }
         
         resetOperations()
         
@@ -90,6 +83,10 @@ extension ListViewController : ListController {
     
     func resetOperations() {
         listOperations = ListOperations()
+    }
+    
+    func reloadData() {
+        self.collectionView.reloadData()
     }
 }
 

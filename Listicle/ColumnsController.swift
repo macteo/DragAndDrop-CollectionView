@@ -15,7 +15,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     
     @IBAction func reload(_ sender: UIBarButtonItem) {
         listManager.listControllers.forEach { (controller) in
-            (controller as! ListViewController).collectionView.reloadData()
+            controller.reloadData()
         }
     }
 
@@ -38,8 +38,8 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         return CGSize(width: (collectionView.bounds.size.width - 100) / 3, height: collectionView.bounds.size.height - 100)
     }
 
-    func forgeController() -> ListViewController {
-        let controller = ListViewController()
+    func forgeController() -> VerticalColumnController {
+        let controller = VerticalColumnController()
         addChildViewController(controller)
         controller.delegate = listManager
         controller.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
