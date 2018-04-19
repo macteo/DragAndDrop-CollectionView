@@ -25,6 +25,7 @@ extension ListManager: ListDelegate {
         let items = coordinator.items
         if items.count == 1, let item = items.first, let sourceIndexPath = item.sourceIndexPath
         {
+            // TODO: could we access the information on the listController and remove the need to access directly the collectionView?
             var dIndexPath = destinationIndexPath
             if dIndexPath.row >= collectionView.numberOfItems(inSection: 0)
             {
@@ -86,6 +87,7 @@ extension ListManager: ListDelegate {
                         DispatchQueue.main.async {
                             // TODO: replace with some generic cell management
                             // newObject?.name = string
+                            // TODO: could convert this to an operation and remove the need to access directly the collectionView?
                             collectionView.reloadItems(at: [indexPath])
                         }
                     }
