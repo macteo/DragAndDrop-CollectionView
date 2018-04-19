@@ -22,7 +22,6 @@ extension ListManager: ListDelegate {
     ///   - collectionView: collectionView in which reordering needs to be done.
     func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView, listController: ListController)
     {
-        // TODO: convert to list operations and remove direct access to the collectionView
         let items = coordinator.items
         if items.count == 1, let item = items.first, let sourceIndexPath = item.sourceIndexPath
         {
@@ -31,20 +30,17 @@ extension ListManager: ListDelegate {
             {
                 dIndexPath.row = collectionView.numberOfItems(inSection: 0) - 1
             }
-            collectionView.performBatchUpdates({
-                if let draggableItem = item.dragItem.localObject as? DraggableItem {
-                    listController.removeItem(at: sourceIndexPath.row)
-                    listController.insert(item: draggableItem, at: dIndexPath.row)
-                    
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [dIndexPath])
-                }
-                
-            })
+            if let draggableItem = item.dragItem.localObject as? DraggableItem {
+                listController.listOperations.removeItems.append(draggableItem)
+                listController.listOperations.addItems[dIndexPath.row] = draggableItem
+                listController.listOperations.removeIndexPaths.append(sourceIndexPath)
+                listController.listOperations.addIndexPaths.append(dIndexPath)
+            }
+            listController.performOperations()
             coordinator.drop(item.dragItem, toItemAt: dIndexPath)
         }
     }
-    
+
     /// This method copies a cell from source indexPath in 1st collection view to destination indexPath in 2nd collection view. It works for multiple items.
     ///
     /// - Parameters:
@@ -53,19 +49,15 @@ extension ListManager: ListDelegate {
     ///   - collectionView: collectionView in which reordering needs to be done.
     func copyItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView, listController: ListController)
     {
-        // TODO: convert to list operations and remove direct access to the collectionView
-        collectionView.performBatchUpdates({
-            var indexPaths = [IndexPath]()
-            for (index, item) in coordinator.items.enumerated()
-            {
-                let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-                if let draggableItem = item.dragItem.localObject as? DraggableItem {
-                    listController.insert(item: draggableItem, at: indexPath.row)
-                    indexPaths.append(indexPath)
-                }
+        for (index, item) in coordinator.items.enumerated()
+        {
+            let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
+            if let draggableItem = item.dragItem.localObject as? DraggableItem {
+                listController.listOperations.addItems[indexPath.row] = draggableItem
+                listController.listOperations.addIndexPaths.append(indexPath)
             }
-            collectionView.insertItems(at: indexPaths)
-        })
+        }
+        listController.performOperations()
     }
     
     /// This method should transfer cells from source indexPath in one collection view to destination indexPath to another collection view, removing them from the source collection view. It should work for multiple items.
