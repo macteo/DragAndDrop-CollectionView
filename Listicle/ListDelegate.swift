@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ListDelegate {
+public protocol ListDelegate {
     
     /// This method moves a cell from source indexPath to destination indexPath within the same collection view. It works for only 1 item. If multiple items selected, no reordering happens.
     ///

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ListController : class {
+public protocol ListController : class {
     var items : [DraggableItem] { get set }
     var listOperations : ListOperations<DraggableItem> { get set }
     var index : Int { get set }

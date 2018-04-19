@@ -11,7 +11,7 @@ import UIKit
 fileprivate let reuseIdentifier = "columnCell"
 
 class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    let columnManager = ListManager<ColumnItem, ColoredItem>()
+    let columnManager = ListManager<ColumnItem<ColoredItem,ColoredItem>, ColoredItem>()
     
     let listManager = ListManager<ColoredItem, ColoredItem>()
     fileprivate var didLoad = false

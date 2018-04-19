@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct ListOperations<T:DraggableItem> {
-    var addItems = [Int: T]()
-    var removeItems = [T]()
-    var addIndexPaths = [IndexPath]()
-    var removeIndexPaths = [IndexPath]()
-    var reloadPaths = [IndexPath]()
+public struct ListOperations<T:DraggableItem> {
+    public var addItems = [Int: T]()
+    public var removeItems = [T]()
+    public var addIndexPaths = [IndexPath]()
+    public var removeIndexPaths = [IndexPath]()
+    public var reloadPaths = [IndexPath]()
 }

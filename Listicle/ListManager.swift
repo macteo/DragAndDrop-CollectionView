@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ListManager<Item:DraggableItem, Provider:NSItemProviderReading> {
-    var listControllers = [ListController]()
+public class ListManager<Item:DraggableItem, Provider:NSItemProviderReading> {
+    public var listControllers = [ListController]()
 }
 
 extension ListManager: ListDelegate {
     
-    func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
+    public func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
     {
         let items = coordinator.items
         if items.count == 1, let item = items.first, let sourceIndexPath = item.sourceIndexPath
@@ -35,7 +35,7 @@ extension ListManager: ListDelegate {
         }
     }
 
-    func copyItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
+    public func copyItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
     {
         for (index, item) in coordinator.items.enumerated()
         {
@@ -48,7 +48,7 @@ extension ListManager: ListDelegate {
         listController.performOperations()
     }
 
-    func transferItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
+    public func transferItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
     {
         for (index, item) in coordinator.items.enumerated()
         {
