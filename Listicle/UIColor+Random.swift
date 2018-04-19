@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-// TODO: move to a UIColor extension
 // Credits https://gist.github.com/asarode/7b343fa3fab5913690ef
 extension UIColor {
     class var random: UIColor {

@@ -12,5 +12,6 @@ struct ListOperations<T:DraggableItem> {
     var addItems = [Int: T]()
     var removeItems = [T]()
     var addIndexPaths = [IndexPath]()
-    var removeIndexPaths = [IndexPath]()    
+    var removeIndexPaths = [IndexPath]()
+    var reloadPaths = [IndexPath]()
 }

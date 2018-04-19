@@ -80,6 +80,7 @@ extension ListViewController : ListController {
         collectionView.performBatchUpdates({
             collectionView.deleteItems(at: listOperations.removeIndexPaths)
             collectionView.insertItems(at: listOperations.addIndexPaths)
+            collectionView.reloadItems(at: listOperations.reloadPaths)
         })
 
         defer {
@@ -174,12 +175,12 @@ extension ListViewController: UICollectionViewDropDelegate {
         switch coordinator.proposal.operation
         {
         case .move:
-            delegate.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, collectionView: collectionView, listController: self)
+            delegate.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, listController: self)
             break
         case .copy:
             // Those are mutually exclusive, you can copy or move between collectionViews
-            // delegate.copyItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView, listController: self)
-            delegate.transferItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView, listController: self)
+            // delegate.copyItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, listController: self)
+            delegate.transferItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, listController: self)
             break
         default:
             return

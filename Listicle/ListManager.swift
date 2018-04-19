@@ -14,22 +14,15 @@ class ListManager<Item:DraggableItem> {
 
 extension ListManager: ListDelegate {
     
-    /// This method moves a cell from source indexPath to destination indexPath within the same collection view. It works for only 1 item. If multiple items selected, no reordering happens.
-    ///
-    /// - Parameters:
-    ///   - coordinator: coordinator obtained from performDropWith: UICollectionViewDropDelegate method
-    ///   - destinationIndexPath: indexpath of the collection view where the user drops the element
-    ///   - collectionView: collectionView in which reordering needs to be done.
-    func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView, listController: ListController)
+    func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
     {
         let items = coordinator.items
         if items.count == 1, let item = items.first, let sourceIndexPath = item.sourceIndexPath
         {
-            // TODO: could we access the information on the listController and remove the need to access directly the collectionView?
             var dIndexPath = destinationIndexPath
-            if dIndexPath.row >= collectionView.numberOfItems(inSection: 0)
+            if dIndexPath.row >= listController.items.count
             {
-                dIndexPath.row = collectionView.numberOfItems(inSection: 0) - 1
+                dIndexPath.row = listController.items.count - 1
             }
             if let draggableItem = item.dragItem.localObject as? DraggableItem {
                 listController.listOperations.removeItems.append(draggableItem)
@@ -42,13 +35,7 @@ extension ListManager: ListDelegate {
         }
     }
 
-    /// This method copies a cell from source indexPath in 1st collection view to destination indexPath in 2nd collection view. It works for multiple items.
-    ///
-    /// - Parameters:
-    ///   - coordinator: coordinator obtained from performDropWith: UICollectionViewDropDelegate method
-    ///   - destinationIndexPath: indexpath of the collection view where the user drops the element
-    ///   - collectionView: collectionView in which reordering needs to be done.
-    func copyItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView, listController: ListController)
+    func copyItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
     {
         for (index, item) in coordinator.items.enumerated()
         {
@@ -60,14 +47,8 @@ extension ListManager: ListDelegate {
         }
         listController.performOperations()
     }
-    
-    /// This method should transfer cells from source indexPath in one collection view to destination indexPath to another collection view, removing them from the source collection view. It should work for multiple items.
-    ///
-    /// - Parameters:
-    ///   - coordinator: coordinator obtained from performDropWith: UICollectionViewDropDelegate method
-    ///   - destinationIndexPath: indexpath of the collection view where the user drops the element
-    ///   - collectionView: collectionView in which reordering needs to be done.
-    func transferItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView, listController: ListController)
+
+    func transferItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, listController: ListController)
     {
         for (index, item) in coordinator.items.enumerated()
         {
@@ -87,8 +68,8 @@ extension ListManager: ListDelegate {
                         DispatchQueue.main.async {
                             // TODO: replace with some generic cell management
                             // newObject?.name = string
-                            // TODO: could convert this to an operation and remove the need to access directly the collectionView?
-                            collectionView.reloadItems(at: [indexPath])
+                            listController.listOperations.reloadPaths.append(indexPath)
+                            listController.performOperations()
                         }
                     }
                 })

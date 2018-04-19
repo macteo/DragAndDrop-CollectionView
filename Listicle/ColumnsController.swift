@@ -84,7 +84,6 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         cell.layer.borderColor = color.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 4
-        // TODO: choose an appropriate color
         cell.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
         
         return cell
