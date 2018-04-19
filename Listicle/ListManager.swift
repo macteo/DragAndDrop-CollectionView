@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListManager<Item:DraggableItem> {
+class ListManager<Item:DraggableItem, Provider:NSItemProviderReading> {
     var listControllers = [ListController]()
 }
 
@@ -24,7 +24,7 @@ extension ListManager: ListDelegate {
             {
                 dIndexPath.row = listController.items.count - 1
             }
-            if let draggableItem = item.dragItem.localObject as? DraggableItem {
+            if let draggableItem = item.dragItem.localObject as? Item {
                 listController.listOperations.removeItems.append(draggableItem)
                 listController.listOperations.addItems[dIndexPath.row] = draggableItem
                 listController.listOperations.removeIndexPaths.append(sourceIndexPath)
@@ -57,7 +57,7 @@ extension ListManager: ListDelegate {
             var sourceListIndex : Int?
             
             if newObject == nil {
-                guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
+                guard item.dragItem.itemProvider.canLoadObject(ofClass: Provider.self) else { return }
                 newObject = Item()
                 newObject?.loadObject(from: item.dragItem.itemProvider, completionHandler: { (success, error) in
                     if success {

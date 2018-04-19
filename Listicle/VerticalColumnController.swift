@@ -44,7 +44,7 @@ class VerticalColumnController : ListViewController {
     
     override func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
         if let item = items[indexPath.row] as? ColoredItem {
-            let itemProvider = NSItemProvider(object: item.name as NSString)
+            let itemProvider = NSItemProvider(object: item)
             let dragItem = UIDragItem(itemProvider: itemProvider)
             dragItem.localObject = item
             return [dragItem]

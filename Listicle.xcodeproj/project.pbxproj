@@ -12,6 +12,7 @@
 		9588D5492088917500196960 /* DraggableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588D5482088917500196960 /* DraggableItem.swift */; };
 		9588D54B2088BD8600196960 /* VerticalColumnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588D54A2088BD8600196960 /* VerticalColumnController.swift */; };
 		9588D54F2088CA2300196960 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588D54E2088CA2300196960 /* UIControl+Closure.swift */; };
+		9588D5512088CC9700196960 /* ColumnItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588D5502088CC9700196960 /* ColumnItem.swift */; };
 		95E94559208791E0009A1E0F /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E94558208791E0009A1E0F /* ListController.swift */; };
 		95E9455B208792C1009A1E0F /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E9455A208792C1009A1E0F /* ListCell.swift */; };
 		95EA379F2086549B00164F66 /* ColumnsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EA379E2086549B00164F66 /* ColumnsController.swift */; };
@@ -32,6 +33,7 @@
 		9588D5482088917500196960 /* DraggableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableItem.swift; sourceTree = "<group>"; };
 		9588D54A2088BD8600196960 /* VerticalColumnController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalColumnController.swift; sourceTree = "<group>"; };
 		9588D54E2088CA2300196960 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
+		9588D5502088CC9700196960 /* ColumnItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnItem.swift; sourceTree = "<group>"; };
 		95E94558208791E0009A1E0F /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
 		95E9455A208792C1009A1E0F /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		95EA379E2086549B00164F66 /* ColumnsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnsController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				95FB278F208646CA00B7C296 /* ListOperations.swift */,
 				9588D5482088917500196960 /* DraggableItem.swift */,
 				95FB27892086379200B7C296 /* ColoredItem.swift */,
+				9588D5502088CC9700196960 /* ColumnItem.swift */,
 				95E9455A208792C1009A1E0F /* ListCell.swift */,
 				9588D542208879A400196960 /* UIColor+Random.swift */,
 				9588D544208879F200196960 /* UIColor+Literal.swift */,
@@ -177,6 +180,7 @@
 				95FB278E2086389600B7C296 /* ListDelegate.swift in Sources */,
 				9588D54B2088BD8600196960 /* VerticalColumnController.swift in Sources */,
 				95EA379F2086549B00164F66 /* ColumnsController.swift in Sources */,
+				9588D5512088CC9700196960 /* ColumnItem.swift in Sources */,
 				95FB278A2086379200B7C296 /* ColoredItem.swift in Sources */,
 				95FB2788208633FE00B7C296 /* ListViewController.swift in Sources */,
 				BD8FA17F1FB0912200B6C3C8 /* AppDelegate.swift in Sources */,

@@ -8,10 +8,9 @@
 
 import Foundation
 
-public class DraggableItem : Equatable {
+public class DraggableItem : NSObject {
     var identifier = UUID()
     var listIndex : Int = 0
-    var _itemProvider : NSItemProvider?
     
     public static func == (lhs: DraggableItem, rhs: DraggableItem) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -33,5 +32,15 @@ public class DraggableItem : Equatable {
         })
     }
     
-    required public init() {}
+    required public override init() {}
 }
+
+//extension DraggableItem : NSItemProviderReading {
+//    public static var readableTypeIdentifiersForItemProvider: [String] {
+//        return []
+//    }
+//
+//    public static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> DraggableItem {
+//        return DraggableItem() as! DraggableItem
+//    }
+//}

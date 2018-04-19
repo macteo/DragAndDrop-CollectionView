@@ -11,7 +11,9 @@ import UIKit
 fileprivate let reuseIdentifier = "columnCell"
 
 class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    let listManager = ListManager<ColoredItem>()
+    let columnManager = ListManager<ColumnItem, ColoredItem>()
+    
+    let listManager = ListManager<ColoredItem, ColoredItem>()
     fileprivate var didLoad = false
     
     @IBAction func appendColumn() {
@@ -102,6 +104,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         header.textColor = .darkGray
         header.textAlignment = .center
         header.backgroundColor = color
+        // FIXME: this won't update as the colums are added, deleted or sorted
         header.text = "Section \(indexPath.row)"
         cell.contentView.addSubview(header)
         
@@ -110,6 +113,8 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         deleteButton.setTitle(NSLocalizedString("Ⓧ", comment: "Delete column button title"), for: .normal)
         deleteButton.setTitleColor(header.textColor, for: .normal)
         deleteButton.add(for: .touchUpInside) {
+            // FIXME: this should be updated to reflect the current index of the row (it won't update automatically)
+            // otherwise it will crash
             self.deleteColumn(at: indexPath.row)
         }
         
