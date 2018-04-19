@@ -86,7 +86,7 @@ extension ListViewController : ListController {
     }
     
     func resetOperations() {
-        listOperations = ListOperations(list: self, index: index)
+        listOperations = ListOperations()
     }
 }
 

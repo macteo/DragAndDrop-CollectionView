@@ -9,17 +9,8 @@
 import Foundation
 
 struct ListOperations {
-    weak var listController : ListController?
     var addItems = [Int: ColoredCell]()
     var removeItems = [ColoredCell]()
     var addIndexPaths = [IndexPath]()
-    var removeIndexPaths = [IndexPath]()
-    var listIndex : Int = 0
-    
-    init() { }
-    
-    init(list: ListController, index: Int) {
-        self.listController = list
-        self.listIndex = index
-    }
+    var removeIndexPaths = [IndexPath]()    
 }
