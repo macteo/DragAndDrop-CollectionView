@@ -1,9 +1,9 @@
 //
-//  ListViewControllerManager.swift
-//  DragAndDropInCollectionView
+//  ListDelegate.swift
+//  Listicle
 //
 //  Created by Matteo Gavagnin on 17/04/2018.
-//  Copyright © 2018 Payal Gupta. All rights reserved.
+//  Copyright © 2018 Dolomate. All rights reserved.
 //
 
 import UIKit

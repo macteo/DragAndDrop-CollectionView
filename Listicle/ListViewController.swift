@@ -1,9 +1,9 @@
 //
 //  ListViewController.swift
-//  DragAndDropInCollectionView
+//  Listicle
 //
 //  Created by Matteo Gavagnin on 17/04/2018.
-//  Copyright © 2018 Payal Gupta. All rights reserved.
+//  Copyright © 2018 Dolomate. All rights reserved.
 //
 
 import UIKit
@@ -11,7 +11,7 @@ import UIKit
 class ListViewController: UIViewController {
     let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
     
-    var items = [Cell]()
+    var items = [ColoredCell]()
     var index : Int = 0
     
     var listOperations = ListOperations()
@@ -59,7 +59,7 @@ extension ListViewController : ListController {
         items.remove(at: index)
     }
     
-    func insert(item: Cell, at index: Int) {
+    func insert(item: ColoredCell, at index: Int) {
         items.insert(item, at: index)
     }
     

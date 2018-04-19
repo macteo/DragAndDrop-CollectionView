@@ -1,17 +1,17 @@
 //
 //  ListOperations.swift
-//  DragAndDropInCollectionView
+//  Listicle
 //
 //  Created by Matteo Gavagnin on 17/04/2018.
-//  Copyright © 2018 Payal Gupta. All rights reserved.
+//  Copyright © 2018 Dolomate. All rights reserved.
 //
 
 import Foundation
 
 struct ListOperations {
     weak var listController : ListController?
-    var addItems = [Int: Cell]()
-    var removeItems = [Cell]()
+    var addItems = [Int: ColoredCell]()
+    var removeItems = [ColoredCell]()
     var addIndexPaths = [IndexPath]()
     var removeIndexPaths = [IndexPath]()
     var listIndex : Int = 0

@@ -1,9 +1,9 @@
 //
 //  ListManager.swift
-//  DragAndDropInCollectionView
+//  Listicle
 //
 //  Created by Matteo Gavagnin on 17/04/2018.
-//  Copyright © 2018 Payal Gupta. All rights reserved.
+//  Copyright © 2018 Dolomate. All rights reserved.
 //
 
 import UIKit
@@ -32,7 +32,7 @@ extension ListManager: ListDelegate {
             }
             collectionView.performBatchUpdates({
                 listController.removeItem(at: sourceIndexPath.row)
-                listController.insert(item: item.dragItem.localObject as! Cell, at: dIndexPath.row)
+                listController.insert(item: item.dragItem.localObject as! ColoredCell, at: dIndexPath.row)
                 
                 collectionView.deleteItems(at: [sourceIndexPath])
                 collectionView.insertItems(at: [dIndexPath])
@@ -54,7 +54,7 @@ extension ListManager: ListDelegate {
             for (index, item) in coordinator.items.enumerated()
             {
                 let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-                listController.insert(item: item.dragItem.localObject as! Cell, at: indexPath.row)
+                listController.insert(item: item.dragItem.localObject as! ColoredCell, at: indexPath.row)
                 indexPaths.append(indexPath)
             }
             collectionView.insertItems(at: indexPaths)
@@ -72,12 +72,12 @@ extension ListManager: ListDelegate {
         for (index, item) in coordinator.items.enumerated()
         {
             let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-            var newObject = item.dragItem.localObject as? Cell
+            var newObject = item.dragItem.localObject as? ColoredCell
             var sourceListIndex : Int?
             
             if newObject == nil {
                 guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
-                newObject = Cell("temp-\(index)")
+                newObject = ColoredCell("temp-\(index)")
                 item.dragItem.itemProvider.loadObject(ofClass: NSString.self, completionHandler: { (object, error) in
                     if let string = object as? String {
                         DispatchQueue.main.async {

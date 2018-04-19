@@ -1,9 +1,9 @@
 //
-//  ListCollectionViewControllerManager.swift
-//  DragAndDropInCollectionView
+//  ColumnsController.swift
+//  Listicle
 //
 //  Created by Matteo Gavagnin on 17/04/2018.
-//  Copyright © 2018 Payal Gupta. All rights reserved.
+//  Copyright © 2018 Dolomate. All rights reserved.
 //
 
 import UIKit
@@ -27,7 +27,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView?.clipsToBounds = false
         
         let forged = forgeController()
-        forged.items = [Cell("orange"), Cell("red"), Cell("green"), Cell("cyan"), Cell("green"), Cell("orange"), Cell("brown"), Cell("blue"), Cell("orange")]
+        forged.items = [ColoredCell("orange"), ColoredCell("red"), ColoredCell("green"), ColoredCell("cyan"), ColoredCell("green"), ColoredCell("orange"), ColoredCell("brown"), ColoredCell("blue"), ColoredCell("orange"), ColoredCell()]
         
         for _ in 1...3 {
             let _ = forgeController()

@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  DragAndDropInCollectionView
+//  Listicle
 //
-//  Created by Payal Gupta on 06/11/17.
-//  Copyright © 2017 Payal Gupta. All rights reserved.
+//  Created by Dolomate on 17/04/18.
+//  Copyright © 2017 Dolomate. All rights reserved.
 //
 
 import UIKit
