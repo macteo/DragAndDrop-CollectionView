@@ -12,7 +12,7 @@ public class ColumnItem<Item: DraggableItem, Provider:NSItemProviderReading> : D
     public var name : String
     public var index : Int
     // TODO: track the cells of this element as they're added, removed or reordered
-    public var manager : ListManager<Item, Provider>?
+    // public var manager : ListManager<Item, Provider>?
     
     public required init() {
         self.name = "Section ?"
