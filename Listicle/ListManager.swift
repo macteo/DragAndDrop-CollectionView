@@ -59,15 +59,9 @@ extension ListManager: ListDelegate {
             if newObject == nil {
                 guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
                 newObject = Item()
-                item.dragItem.itemProvider.loadObject(ofClass: NSString.self, completionHandler: { (object, error) in
-                    // TODO: we should support dropping from other apps and choose the appropriate cell or at least associate the correct object
-                    // An approach would be to associate an itemProvider to the DraggableItem and let it extract the value.
-                    // Every subclass could then specify what to do with the extract item
-                    // We should also make DraggableItem a generic on ListManager so it can support different cell subclasses
-                    if let string = object as? String {
+                newObject?.loadObject(from: item.dragItem.itemProvider, completionHandler: { (success, error) in
+                    if success {
                         DispatchQueue.main.async {
-                            // TODO: replace with some generic cell management
-                            // newObject?.name = string
                             listController.listOperations.reloadPaths.append(indexPath)
                             listController.performOperations()
                         }
