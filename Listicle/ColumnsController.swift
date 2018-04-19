@@ -27,7 +27,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView?.clipsToBounds = false
         
         let forged = forgeController()
-        forged.items = [ColoredCell("orange"), ColoredCell("red"), ColoredCell("green"), ColoredCell("cyan"), ColoredCell("green"), ColoredCell("orange"), ColoredCell("brown"), ColoredCell("blue"), ColoredCell("orange"), ColoredCell()]
+        forged.items = [ColoredItem("orange"), ColoredItem("red"), ColoredItem("green"), ColoredItem("cyan"), ColoredItem("green"), ColoredItem("orange"), ColoredItem("brown"), ColoredItem("blue"), ColoredItem("orange"), ColoredItem()]
         
         for _ in 1...3 {
             let _ = forgeController()

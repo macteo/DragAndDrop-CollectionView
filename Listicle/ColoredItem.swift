@@ -1,5 +1,5 @@
 //
-//  ColoredCell.swift
+//  ColoredItem.swift
 //  Listicle
 //
 //  Created by Matteo Gavagnin on 17/04/2018.
@@ -8,13 +8,11 @@
 
 import UIKit
 
-class ColoredCell : Equatable {
+class ColoredItem : DraggableItem {
     var name : String
     var color : UIColor?
-    var identifier = UUID()
-    var list : Int = 0
     
-    init() {
+    override init() {
         self.name = "Random"
         self.color = .random
     }
@@ -33,7 +31,7 @@ class ColoredCell : Equatable {
         self.color = color
     }
     
-    public static func == (lhs: ColoredCell, rhs: ColoredCell) -> Bool {
+    public static func == (lhs: ColoredItem, rhs: ColoredItem) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }

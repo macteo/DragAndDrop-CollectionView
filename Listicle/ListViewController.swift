@@ -11,7 +11,7 @@ import UIKit
 class ListViewController: UIViewController {
     let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
     
-    var items = [ColoredCell]()
+    var items = [DraggableItem]()
     var index : Int = 0
     
     var listOperations = ListOperations()
@@ -59,7 +59,7 @@ extension ListViewController : ListController {
         items.remove(at: index)
     }
     
-    func insert(item: ColoredCell, at index: Int) {
+    func insert(item: DraggableItem, at index: Int) {
         items.insert(item, at: index)
     }
     
@@ -98,8 +98,10 @@ extension ListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
-        cell.backgroundColor = items[indexPath.row].color
-        cell.customLabel.text = items[indexPath.row].name.capitalized
+        if let item = items[indexPath.row] as? ColoredItem {
+            cell.backgroundColor = item.color
+            cell.customLabel.text = item.name.capitalized
+        }
         return cell
     }
 }
@@ -111,19 +113,26 @@ extension ListViewController: UICollectionViewDelegateFlowLayout {
 extension ListViewController: UICollectionViewDragDelegate {
     
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        let item = items[indexPath.row]
-        let itemProvider = NSItemProvider(object: item.name as NSString)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = item
-        return [dragItem]
+        if let item = items[indexPath.row] as? ColoredItem {
+            let itemProvider = NSItemProvider(object: item.name as NSString)
+            let dragItem = UIDragItem(itemProvider: itemProvider)
+            dragItem.localObject = item
+            return [dragItem]
+        } else {
+            return []
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
-        let item = items[indexPath.row]
-        let itemProvider = NSItemProvider(object: item.name as NSString)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = item
-        return [dragItem]
+        if let item = items[indexPath.row] as? ColoredItem {
+            let itemProvider = NSItemProvider(object: item.name as NSString)
+            let dragItem = UIDragItem(itemProvider: itemProvider)
+            dragItem.localObject = item
+            return [dragItem]
+        } else {
+            return []
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {

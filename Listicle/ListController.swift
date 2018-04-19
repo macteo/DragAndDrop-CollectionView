@@ -10,11 +10,11 @@ import Foundation
 
 protocol ListController : class {
     // TODO: this needs to be managed in a better way to control access
-    var items : [ColoredCell] { get set }
-    var listOperations : ListOperations { get set }
+    var items : [DraggableItem] { get set }
+    var listOperations : ListOperations<DraggableItem> { get set }
     var index : Int { get set }
     func removeItem(at index: Int)
-    func insert(item: ColoredCell, at index: Int)
+    func insert(item: DraggableItem, at index: Int)
     func performOperations()
     var delegate : ListDelegate? { get set }
 }

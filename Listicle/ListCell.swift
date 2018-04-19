@@ -29,9 +29,9 @@ class ListCell: UICollectionViewCell {
         customLabel.textAlignment = .center
         customLabel.frame = CGRect(x: 0, y: bounds.size.height - 22, width: bounds.size.width, height: 22)
         customLabel.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        customLabel.text = "tmp"
+        customLabel.text = "Unknown"
         addSubview(customLabel)
         
-        backgroundColor = .orange
+        backgroundColor = .white
     }
 }

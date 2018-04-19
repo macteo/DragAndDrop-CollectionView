@@ -31,13 +31,16 @@ extension ListManager: ListDelegate {
                 dIndexPath.row = collectionView.numberOfItems(inSection: 0) - 1
             }
             collectionView.performBatchUpdates({
-                listController.removeItem(at: sourceIndexPath.row)
-                listController.insert(item: item.dragItem.localObject as! ColoredCell, at: dIndexPath.row)
+                if let draggableItem = item.dragItem.localObject as? DraggableItem {
+                    listController.removeItem(at: sourceIndexPath.row)
+                    listController.insert(item: draggableItem, at: dIndexPath.row)
+                    
+                    collectionView.deleteItems(at: [sourceIndexPath])
+                    collectionView.insertItems(at: [dIndexPath])
+                }
                 
-                collectionView.deleteItems(at: [sourceIndexPath])
-                collectionView.insertItems(at: [dIndexPath])
             })
-            coordinator.drop(items.first!.dragItem, toItemAt: dIndexPath)
+            coordinator.drop(item.dragItem, toItemAt: dIndexPath)
         }
     }
     
@@ -54,8 +57,10 @@ extension ListManager: ListDelegate {
             for (index, item) in coordinator.items.enumerated()
             {
                 let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-                listController.insert(item: item.dragItem.localObject as! ColoredCell, at: indexPath.row)
-                indexPaths.append(indexPath)
+                if let draggableItem = item.dragItem.localObject as? DraggableItem {
+                    listController.insert(item: draggableItem, at: indexPath.row)
+                    indexPaths.append(indexPath)
+                }
             }
             collectionView.insertItems(at: indexPaths)
         })
@@ -72,23 +77,24 @@ extension ListManager: ListDelegate {
         for (index, item) in coordinator.items.enumerated()
         {
             let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-            var newObject = item.dragItem.localObject as? ColoredCell
+            var newObject = item.dragItem.localObject as? DraggableItem
             var sourceListIndex : Int?
             
             if newObject == nil {
                 guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
-                newObject = ColoredCell("temp-\(index)")
+                newObject = DraggableItem()
                 item.dragItem.itemProvider.loadObject(ofClass: NSString.self, completionHandler: { (object, error) in
                     if let string = object as? String {
                         DispatchQueue.main.async {
-                            newObject?.name = string
+                            // TODO: replace with some generic cell management
+                            // newObject?.name = string
                             collectionView.reloadItems(at: [indexPath])
                         }
                     }
                 })
-                newObject?.list = listController.index
+                newObject?.listIndex = listController.index
             } else {
-                sourceListIndex = newObject!.list
+                sourceListIndex = newObject!.listIndex
             }
             
             guard let localObject = newObject else { return }
@@ -101,7 +107,7 @@ extension ListManager: ListDelegate {
                 }
             }
             
-            localObject.list = listController.index
+            localObject.listIndex = listController.index
             listController.listOperations.addItems[indexPath.row] = localObject
             listController.listOperations.addIndexPaths.append(indexPath)
         }
