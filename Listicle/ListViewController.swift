@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate let listReuseIdentifier = "listCell"
+
 class ListViewController: UIViewController {
     let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -43,7 +45,7 @@ class ListViewController: UIViewController {
         
         resetOperations()
         
-        collectionView.register(ListCell.self, forCellWithReuseIdentifier: "listCell")
+        collectionView.register(ListCell.self, forCellWithReuseIdentifier: listReuseIdentifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,7 +99,7 @@ extension ListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listReuseIdentifier, for: indexPath) as! ListCell
         if let item = items[indexPath.row] as? ColoredItem {
             cell.backgroundColor = item.color
             cell.customLabel.text = item.name.capitalized

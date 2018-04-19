@@ -8,10 +8,10 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+fileprivate let reuseIdentifier = "Cell"
 
 class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    let listManager = ListManager()
+    let listManager = ListManager<ColoredItem>()
     
     @IBAction func reload(_ sender: UIBarButtonItem) {
         listManager.listControllers.forEach { (controller) in

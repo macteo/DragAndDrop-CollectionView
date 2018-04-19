@@ -12,7 +12,7 @@ class ColoredItem : DraggableItem {
     var name : String
     var color : UIColor?
     
-    override init() {
+    required init() {
         self.name = "Random"
         self.color = .random
     }

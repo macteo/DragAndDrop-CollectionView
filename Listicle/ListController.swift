@@ -13,6 +13,8 @@ protocol ListController : class {
     var items : [DraggableItem] { get set }
     var listOperations : ListOperations<DraggableItem> { get set }
     var index : Int { get set }
+    // TODO: once everything is converted to use ListOperations
+    // remove those two items as they become useless
     func removeItem(at index: Int)
     func insert(item: DraggableItem, at index: Int)
     func performOperations()

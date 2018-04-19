@@ -15,4 +15,6 @@ class DraggableItem : Equatable {
     public static func == (lhs: DraggableItem, rhs: DraggableItem) -> Bool {
         return lhs.identifier == rhs.identifier
     }
+    
+    required init() {}
 }
