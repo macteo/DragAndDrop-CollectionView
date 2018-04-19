@@ -20,9 +20,9 @@ extension ListManager: ListDelegate {
         if items.count == 1, let item = items.first, let sourceIndexPath = item.sourceIndexPath
         {
             var dIndexPath = destinationIndexPath
-            if dIndexPath.row >= listController.items.count
+            if dIndexPath.row >= listController.numberOfItems
             {
-                dIndexPath.row = listController.items.count - 1
+                dIndexPath.row = listController.numberOfItems - 1
             }
             if let draggableItem = item.dragItem.localObject as? Item {
                 listController.listOperations.removeItems.append(draggableItem)
@@ -76,7 +76,7 @@ extension ListManager: ListDelegate {
             
             if let sourceIndex = sourceListIndex, listControllers.count > sourceIndex {
                 let sourceController = listControllers[sourceIndex]
-                if let indexOf = sourceController.items.index(where: { $0 == localObject }) {
+                if let indexOf = sourceController.index(of: localObject) {
                     sourceController.listOperations.removeItems.append(localObject)
                     sourceController.listOperations.removeIndexPaths.append(IndexPath(item: indexOf, section: 0))
                 }

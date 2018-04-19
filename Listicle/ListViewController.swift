@@ -50,6 +50,21 @@ class ListViewController: UIViewController {
 
 extension ListViewController : ListController {
 
+    var numberOfItems: Int {
+        get {
+            return items.count
+        }
+    }
+
+    func index(of item: AnyObject) -> Int? {
+        if let castedItem = item as? DraggableItem {
+            if let index = items.index(where: { $0 == castedItem }) {
+                return index
+            }
+        }
+        return nil
+    }
+    
     func removeItem(at index: Int) {
         items.remove(at: index)
     }
