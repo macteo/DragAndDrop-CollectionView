@@ -44,7 +44,13 @@ class ListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: collectionView.bounds.size.width - 8, height: 100)
+        layout.itemSize = CGSize(width: collectionView.bounds.size.width - 100, height: 100)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.itemSize = CGSize(width: collectionView.bounds.size.width - 100, height: 100)
     }
 }
 
@@ -114,8 +120,8 @@ extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: listReuseIdentifier, for: indexPath) as! ListCell
         if let item = items[indexPath.row] as? ColoredItem {
-            cell.backgroundColor = item.color
-            cell.customLabel.text = item.name.capitalized
+            cell.contentView.backgroundColor = item.color
+            cell.customLabel.text = item.identifier.uuidString
         }
         return cell
     }

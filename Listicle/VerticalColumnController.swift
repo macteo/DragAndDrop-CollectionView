@@ -32,7 +32,7 @@ class VerticalColumnController : ListViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: coloredCellReuseIdentifier, for: indexPath) as! ListCell
         if let item = items[indexPath.row] as? ColoredItem {
             cell.backgroundColor = item.color
-            cell.customLabel.text = item.name.capitalized
+            cell.customLabel.text = item.identifier.uuidString
         }
         return cell
     }

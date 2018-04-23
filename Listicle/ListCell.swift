@@ -32,6 +32,11 @@ class ListCell: UICollectionViewCell {
         customLabel.text = "Unknown"
         addSubview(customLabel)
         
-        backgroundColor = .white
+        backgroundColor = .clear
+    }
+    
+    override func prepareForReuse() {
+        customLabel.text = "Unknown"
+        backgroundColor = .clear
     }
 }

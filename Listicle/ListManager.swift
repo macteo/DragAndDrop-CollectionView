@@ -30,8 +30,9 @@ extension ListManager: ListDelegate {
                 listController.listOperations.removeIndexPaths.append(sourceIndexPath)
                 listController.listOperations.addIndexPaths.append(dIndexPath)
             }
-            listController.performOperations()
+            
             coordinator.drop(item.dragItem, toItemAt: dIndexPath)
+            listController.performOperations()
         }
     }
 
@@ -44,6 +45,7 @@ extension ListManager: ListDelegate {
                 listController.listOperations.addItems[indexPath.row] = draggableItem
                 listController.listOperations.addIndexPaths.append(indexPath)
             }
+            coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
         }
         listController.performOperations()
     }
@@ -85,6 +87,7 @@ extension ListManager: ListDelegate {
             localObject.listIndex = listController.index
             listController.listOperations.addItems[indexPath.row] = localObject
             listController.listOperations.addIndexPaths.append(indexPath)
+            coordinator.drop(item.dragItem, toItemAt: indexPath)
         }
         
         // Call performOperations on evary managed list controller
