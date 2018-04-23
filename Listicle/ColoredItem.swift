@@ -68,16 +68,20 @@ extension ColoredItem : Shareable {
     
     convenience init?(data: Data) {
         do {
-            let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-            guard let jsonName = json["name"] as? String else { return nil }
-            self.init()
-            name = jsonName
-            
-            if let jsonColor = json["color"] as? String {
-                color = UIColor(hex: jsonColor)
-            }
+            guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else { return nil }
+            self.init(dictionary: json)
         } catch _ {
             return nil
+        }
+    }
+    
+    convenience init?(dictionary: [String: Any]) {
+        guard let jsonName = dictionary["name"] as? String else { return nil }
+        self.init()
+        name = jsonName
+        
+        if let jsonColor = dictionary["color"] as? String {
+            color = UIColor(hex: jsonColor)
         }
     }
 }

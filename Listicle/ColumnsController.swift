@@ -77,8 +77,6 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.reloadData()
     }
     
-    let columnManager = ListManager<ColumnItem, ColoredItem>()
-    
     let listManager = ListManager<ColoredItem, ColoredItem>()
     fileprivate var didLoad = false
     
@@ -131,7 +129,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.dragDelegate = self
         collectionView?.dropDelegate = self
         
-        delegate = columnManager
+        delegate = listManager
         
         for i in 0...2 {
             if i == 0 {
@@ -223,6 +221,9 @@ extension ColumnsController: UICollectionViewDragDelegate {
 
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         let item = items[indexPath.row]
+        if listManager.listControllers.count > indexPath.row, let viewController = listManager.listControllers[indexPath.row] as? VerticalColumnController, let childs = viewController.items as? [ColoredItem] {
+            item.childs = childs
+        }
         let itemProvider = NSItemProvider(object: item)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         dragItem.localObject = item
@@ -232,6 +233,9 @@ extension ColumnsController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
         guard session.hasItemsConforming(toTypeIdentifiers: [ColumnItem.shareIdentifier]) else { return [] }
         let item = items[indexPath.row]
+        if listManager.listControllers.count > indexPath.row, let viewController = listManager.listControllers[indexPath.row] as? VerticalColumnController, let childs = viewController.items as? [ColoredItem] {
+            item.childs = childs
+        }
         let itemProvider = NSItemProvider(object: item)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         dragItem.localObject = item

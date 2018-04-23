@@ -11,7 +11,6 @@ import UIKit
 fileprivate let coloredCellReuseIdentifier = "coloredCellReuseIdentifier"
 
 class VerticalColumnController : ListViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(ListCell.self, forCellWithReuseIdentifier: coloredCellReuseIdentifier)

@@ -9,7 +9,6 @@
 import Foundation
 
 public protocol ListController : class {
-    // var items : [DraggableItem] { get set }
     func index(of item: AnyObject) -> Int?
     var numberOfItems: Int { get }
     var listOperations : ListOperations<DraggableItem> { get set }
