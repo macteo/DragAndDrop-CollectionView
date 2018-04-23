@@ -214,7 +214,6 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     }
 }
 
-
 extension ColumnsController: UICollectionViewDragDelegate {
     
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

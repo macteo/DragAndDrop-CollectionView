@@ -11,6 +11,7 @@ import MobileCoreServices
 
 enum ColoredItemError: Error {
     case invalidTypeIdentifier
+    case invalidItemContent
 }
 
 final public class ColoredItem : DraggableItem {
@@ -88,12 +89,18 @@ extension ColoredItem : Shareable {
 
 extension ColoredItem : NSItemProviderReading {
     public static var readableTypeIdentifiersForItemProvider: [String] {
-        return [kUTTypeUTF8PlainText as String]
+        return [ColoredItem.shareIdentifier, kUTTypeUTF8PlainText as String]
     }
     
     public static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> ColoredItem {
         let newDraggableItem = ColoredItem()
-        if typeIdentifier == kUTTypeUTF8PlainText as String {
+        if typeIdentifier == ColoredItem.shareIdentifier {
+            if let item = ColoredItem(data: data) {
+                return item
+            } else {
+                throw ColoredItemError.invalidItemContent
+            }
+        } else if typeIdentifier == kUTTypeUTF8PlainText as String {
             let name = String(data: data, encoding: .utf8)!
             newDraggableItem.name = name
             if let color = UIColor.named(name) {
@@ -112,7 +119,9 @@ extension ColoredItem : NSItemProviderWriting {
     }
     
     public func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-        if typeIdentifier == kUTTypeUTF8PlainText as String {
+        if typeIdentifier == ColoredItem.shareIdentifier {
+            completionHandler(data, nil)
+        } else if typeIdentifier == kUTTypeUTF8PlainText as String {
             completionHandler(name.data(using: .utf8), nil)
         } else {
             completionHandler(nil, ColoredItemError.invalidTypeIdentifier)
