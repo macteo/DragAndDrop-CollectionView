@@ -77,17 +77,23 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.reloadData()
     }
     
+    let columnManager = ListManager<ColumnItem, ColoredItem>()
     let listManager = ListManager<ColoredItem, ColoredItem>()
     fileprivate var didLoad = false
     
+    @IBAction func appendColumn() {
+        appendColumn(with: ColumnItem("Section ?", index: columnManager.listControllers.count))
+    }
+    
     @IBAction func appendColumn(with item: ColumnItem) {
-        addColumn(at: listManager.listControllers.count, with: item)
+        addColumn(at: columnManager.listControllers.count, with: item)
     }
     
     func addColumn(at index: Int, with item: ColumnItem) {
         let controller = forgeController()
         controller.items = item.childs
         items.insert(item, at: index)
+        columnManager.listControllers.append(controller)
         listManager.listControllers.append(controller)
         guard didLoad else { return }
         collectionView?.performBatchUpdates({
@@ -96,11 +102,12 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     func deleteColumn(at index: Int) {
-        let listController = listManager.listControllers[index]
+        let listController = columnManager.listControllers[index]
         guard let controller = listController as? UIViewController else { return }
         controller.willMove(toParentViewController: nil)
         controller.view.removeFromSuperview()
         controller.removeFromParentViewController()
+        columnManager.listControllers.remove(at: index)
         listManager.listControllers.remove(at: index)
         items.remove(at: index)
         guard didLoad else { return }
@@ -110,7 +117,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     @IBAction func reload(_ sender: UIBarButtonItem) {
-        listManager.listControllers.forEach { (controller) in
+        columnManager.listControllers.forEach { (controller) in
             controller.reloadData()
         }
     }
@@ -129,7 +136,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.dragDelegate = self
         collectionView?.dropDelegate = self
         
-        delegate = listManager
+        delegate = columnManager
         
         for i in 0...2 {
             if i == 0 {
@@ -167,7 +174,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return listManager.listControllers.count
+        return columnManager.listControllers.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -198,7 +205,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         
         cell.contentView.addSubview(deleteButton)
         
-        guard let controller = listManager.listControllers[indexPath.row] as? VerticalColumnController else { return cell }
+        guard let controller = columnManager.listControllers[indexPath.row] as? VerticalColumnController else { return cell }
         controller.index = indexPath.row
         controller.view.frame = CGRect(x: 0, y: 44, width: cell.bounds.width, height: cell.bounds.height - 44)
         cell.contentView.addSubview(controller.view)
@@ -221,7 +228,7 @@ extension ColumnsController: UICollectionViewDragDelegate {
 
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         let item = items[indexPath.row]
-        if listManager.listControllers.count > indexPath.row, let viewController = listManager.listControllers[indexPath.row] as? VerticalColumnController, let childs = viewController.items as? [ColoredItem] {
+        if columnManager.listControllers.count > indexPath.row, let viewController = columnManager.listControllers[indexPath.row] as? VerticalColumnController, let childs = viewController.items as? [ColoredItem] {
             item.childs = childs
         }
         let itemProvider = NSItemProvider(object: item)
@@ -233,7 +240,7 @@ extension ColumnsController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
         guard session.hasItemsConforming(toTypeIdentifiers: [ColumnItem.shareIdentifier]) else { return [] }
         let item = items[indexPath.row]
-        if listManager.listControllers.count > indexPath.row, let viewController = listManager.listControllers[indexPath.row] as? VerticalColumnController, let childs = viewController.items as? [ColoredItem] {
+        if columnManager.listControllers.count > indexPath.row, let viewController = columnManager.listControllers[indexPath.row] as? VerticalColumnController, let childs = viewController.items as? [ColoredItem] {
             item.childs = childs
         }
         let itemProvider = NSItemProvider(object: item)
