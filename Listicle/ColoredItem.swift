@@ -60,6 +60,32 @@ final public class ColoredItem : DraggableItem {
     }
 }
 
+extension ColoredItem : Shareable {
+    var data: Data? {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: ["name": name, "color": color?.hex], options: .prettyPrinted)
+            return data
+        } catch _ {
+            return nil
+        }
+    }
+    
+    convenience init?(data: Data) {
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+            guard let jsonName = json["name"] as? String else { return nil }
+            self.init()
+            name = jsonName
+            
+            if let jsonColor = json["color"] as? String {
+                color = UIColor(hex: jsonColor)
+            }
+        } catch _ {
+            return nil
+        }
+    }
+}
+
 extension ColoredItem : NSItemProviderReading {
     public static var readableTypeIdentifiersForItemProvider: [String] {
         return [kUTTypeUTF8PlainText as String]
