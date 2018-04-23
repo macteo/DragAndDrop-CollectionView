@@ -7,21 +7,32 @@
 //
 
 import UIKit
+import MobileCoreServices
 
-public class ColumnItem<Item: DraggableItem, Provider:NSItemProviderReading> : DraggableItem {
+final public class ColumnItem : DraggableItem {
     public var name : String
     public var index : Int
     // TODO: track the cells of this element as they're added, removed or reordered
     // public var manager : ListManager<Item, Provider>?
     
+    public var childs : [ColoredItem]
+    
     public required init() {
         self.name = "Section ?"
         self.index = 0
+        self.childs = []
     }
     
     public init(_ name: String, index: Int) {
         self.name = name
         self.index = index
+        self.childs = []
+    }
+    
+    public init(_ name: String, index: Int, childs: [ColoredItem]) {
+        self.name = name
+        self.index = index
+        self.childs = childs
     }
     
     public static func == (lhs: ColumnItem, rhs: ColumnItem) -> Bool {
@@ -46,5 +57,73 @@ public class ColumnItem<Item: DraggableItem, Provider:NSItemProviderReading> : D
                 completionHandler(false, error)
             }
         })
+    }
+
+}
+
+extension ColumnItem : NSItemProviderReading {
+    public static var readableTypeIdentifiersForItemProvider: [String] {
+        return [ColumnItem.shareIdentifier]
+    }
+    
+    public static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> ColumnItem {
+        let newDraggableItem = ColumnItem()
+        if typeIdentifier == ColumnItem.shareIdentifier {
+            if let item = ColumnItem(data: data) {
+                return item
+            } else {
+                throw DraggableItemError.invalidItemContent
+            }
+        } else if typeIdentifier == kUTTypeUTF8PlainText as String {
+            let name = String(data: data, encoding: .utf8)!
+            newDraggableItem.name = name
+
+            // TODO: add other informations
+        } else {
+            throw DraggableItemError.invalidTypeIdentifier
+        }
+        return newDraggableItem
+    }
+}
+
+extension ColumnItem : NSItemProviderWriting {
+    
+    public static var writableTypeIdentifiersForItemProvider: [String] {
+        return [ColumnItem.shareIdentifier]
+    }
+    
+    public func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        if typeIdentifier == ColumnItem.shareIdentifier {
+            completionHandler(data, nil)
+        } else if typeIdentifier == kUTTypeUTF8PlainText as String {
+            completionHandler(name.data(using: .utf8), nil)
+        } else {
+            completionHandler(nil, DraggableItemError.invalidTypeIdentifier)
+        }
+        return nil
+    }
+}
+
+extension ColumnItem : Shareable {
+    var data: Data? {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: ["name": name], options: .prettyPrinted) // TODO: add other informations
+            return data
+        } catch _ {
+            return nil
+        }
+    }
+    
+    convenience init?(data: Data) {
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+            guard let jsonName = json["name"] as? String else { return nil }
+            self.init()
+            name = jsonName
+            
+            // TODO: add other informations
+        } catch _ {
+            return nil
+        }
     }
 }

@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum DraggableItemError: Error {
+    case invalidTypeIdentifier
+    case invalidItemContent
+}
+
 public class DraggableItem : NSObject {
     var identifier = UUID()
     var listIndex : Int = 0

@@ -129,7 +129,7 @@ extension ListViewController: UICollectionViewDragDelegate {
     
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         if let item = items[indexPath.row] as? ColoredItem {
-            let itemProvider = NSItemProvider(object: item.name as NSString)
+            let itemProvider = NSItemProvider(object: item)
             let dragItem = UIDragItem(itemProvider: itemProvider)
             dragItem.localObject = item
             return [dragItem]
@@ -141,7 +141,7 @@ extension ListViewController: UICollectionViewDragDelegate {
     
     func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
         if let item = items[indexPath.row] as? ColoredItem {
-            let itemProvider = NSItemProvider(object: item.name as NSString)
+            let itemProvider = NSItemProvider(object: item)
             let dragItem = UIDragItem(itemProvider: itemProvider)
             dragItem.localObject = item
             return [dragItem]

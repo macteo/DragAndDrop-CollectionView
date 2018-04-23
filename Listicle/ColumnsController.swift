@@ -11,7 +11,7 @@ import UIKit
 fileprivate let reuseIdentifier = "columnCell"
 
 class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ListController {
-    var items = [ColumnItem<ColoredItem,ColoredItem>]()
+    var items = [ColumnItem]()
     
     var listOperations = ListOperations<DraggableItem>()
     
@@ -26,7 +26,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     func index(of item: AnyObject) -> Int? {
-        if let castedItem = item as? ColumnItem<ColoredItem,ColoredItem> {
+        if let castedItem = item as? ColumnItem {
             if let index = items.index(where: { $0 == castedItem }) {
                 return index
             }
@@ -39,7 +39,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     func insert(item: DraggableItem, at index: Int) {
-        if let columnItem = item as? ColumnItem<ColoredItem,ColoredItem> {
+        if let columnItem = item as? ColumnItem {
             items.insert(columnItem, at: index)
         }
     }
@@ -49,7 +49,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         items = items.filter { !listOperations.removeItems.contains($0) }
         
         listOperations.addItems.forEach { (index, cell) in
-            if let item = cell as? ColumnItem<ColoredItem,ColoredItem> {
+            if let item = cell as? ColumnItem {
                 if items.count < index {
                     items.append(item)
                 } else {
@@ -77,17 +77,19 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.reloadData()
     }
     
-    let columnManager = ListManager<ColumnItem<ColoredItem,ColoredItem>, ColoredItem>()
+    let columnManager = ListManager<ColumnItem, ColoredItem>()
     
     let listManager = ListManager<ColoredItem, ColoredItem>()
     fileprivate var didLoad = false
     
-    @IBAction func appendColumn() {
-        addColumn(at: listManager.listControllers.count)
+    @IBAction func appendColumn(with item: ColumnItem) {
+        addColumn(at: listManager.listControllers.count, with: item)
     }
     
-    func addColumn(at index: Int) {
+    func addColumn(at index: Int, with item: ColumnItem) {
         let controller = forgeController()
+        controller.items = item.childs
+        items.insert(item, at: index)
         listManager.listControllers.append(controller)
         guard didLoad else { return }
         collectionView?.performBatchUpdates({
@@ -102,6 +104,7 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         controller.view.removeFromSuperview()
         controller.removeFromParentViewController()
         listManager.listControllers.remove(at: index)
+        items.remove(at: index)
         guard didLoad else { return }
         collectionView?.performBatchUpdates({
           collectionView?.deleteItems(at: [IndexPath(row: index, section: 0)])
@@ -125,17 +128,19 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.dataSource = self
         
         collectionView?.dragInteractionEnabled = true
-        collectionView?.dragDelegate = self
-        collectionView?.dropDelegate = self
+//        collectionView?.dragDelegate = self
+//        collectionView?.dropDelegate = self
         
         delegate = columnManager
         
-        let forged = forgeController()
-        forged.items = [ColoredItem("orange"), ColoredItem("red"), ColoredItem("green"), ColoredItem("cyan"), ColoredItem("green"), ColoredItem("orange"), ColoredItem("brown"), ColoredItem("blue"), ColoredItem("orange"), ColoredItem()]
-        listManager.listControllers.append(forged)
-        
-        for _ in 1...2 {
-            appendColumn()
+        for i in 0...2 {
+            if i == 0 {
+                let cells = [ColoredItem("orange"), ColoredItem("red"), ColoredItem("green"), ColoredItem("cyan"), ColoredItem("green"), ColoredItem("orange"), ColoredItem("brown"), ColoredItem("blue"), ColoredItem("orange"), ColoredItem()]
+                let columnItem = ColumnItem("Section \(i)", index: i, childs: cells)
+                appendColumn(with: columnItem)
+            } else {
+                appendColumn(with: ColumnItem("Section \(i)", index: i))
+            }
         }
         
         didLoad = true
@@ -213,73 +218,72 @@ class ColumnsController: UICollectionViewController, UICollectionViewDelegateFlo
         return cell
     }
 }
-
-extension ColumnsController: UICollectionViewDragDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        // TODO: provide a way to access a ColumnItem
-        let item = UUID().uuidString
-        let itemProvider = NSItemProvider(object: item as NSString)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = item
-        return [dragItem]
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
-        // TODO: provide a way to access a ColumnItem
-        let item = UUID().uuidString
-        let itemProvider = NSItemProvider(object: item as NSString)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = item
-        return [dragItem]
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
-        return nil
-    }
-}
-
-extension ColumnsController: UICollectionViewDropDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
-        return session.canLoadObjects(ofClass: NSString.self)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal
-    {
-        if collectionView.hasActiveDrag {
-            return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-        } else {
-            return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator)
-    {
-        guard let delegate = self.delegate else { return }
-        
-        let destinationIndexPath: IndexPath
-        if let indexPath = coordinator.destinationIndexPath {
-            destinationIndexPath = indexPath
-        } else {
-            // Get last index path of table view.
-            let section = collectionView.numberOfSections - 1
-            let row = collectionView.numberOfItems(inSection: section)
-            destinationIndexPath = IndexPath(row: row, section: section)
-        }
-        
-        switch coordinator.proposal.operation
-        {
-        case .move:
-            delegate.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, listController: self)
-            break
-        case .copy:
-            // Those are mutually exclusive, you can copy or move between collectionViews
-            // delegate.copyItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, listController: self)
-            delegate.transferItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, listController: self)
-            break
-        default:
-            return
-        }
-    }
-}
+//
+//extension ColumnsController: UICollectionViewDragDelegate {
+//
+//    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//        let item = items[indexPath.row]
+//            let itemProvider = NSItemProvider(object: item)
+//            let dragItem = UIDragItem(itemProvider: itemProvider)
+//            dragItem.localObject = item
+//            return [dragItem]
+//
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+//        let item = items[indexPath.row]
+//        let itemProvider = NSItemProvider(object: item)
+//        let dragItem = UIDragItem(itemProvider: itemProvider)
+//        dragItem.localObject = item
+//        return [dragItem]
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+//        return nil
+//    }
+//}
+//
+//extension ColumnsController: UICollectionViewDropDelegate {
+//
+//    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
+//        return session.canLoadObjects(ofClass: NSString.self)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal
+//    {
+//        if collectionView.hasActiveDrag {
+//            return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//        } else {
+//            return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+//        }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator)
+//    {
+//        guard let delegate = self.delegate else { return }
+//
+//        let destinationIndexPath: IndexPath
+//        if let indexPath = coordinator.destinationIndexPath {
+//            destinationIndexPath = indexPath
+//        } else {
+//            // Get last index path of table view.
+//            let section = collectionView.numberOfSections - 1
+//            let row = collectionView.numberOfItems(inSection: section)
+//            destinationIndexPath = IndexPath(row: row, section: section)
+//        }
+//
+//        switch coordinator.proposal.operation
+//        {
+//        case .move:
+//            delegate.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, listController: self)
+//            break
+//        case .copy:
+//            // Those are mutually exclusive, you can copy or move between collectionViews
+//            // delegate.copyItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, listController: self)
+//            delegate.transferItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, listController: self)
+//            break
+//        default:
+//            return
+//        }
+//    }
+//}
