@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: explore UICollectionViewDropPlaceholder usage
+// TODO: watch the wwdc2017 sessions
 public class ListManager<Item:DraggableItem, Provider:NSItemProviderReading> {
     public var listControllers = [ListController]()
 }
