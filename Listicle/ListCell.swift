@@ -24,6 +24,8 @@ class ListCell: UICollectionViewCell {
     func commonInit() {
         layer.masksToBounds = true
         layer.cornerRadius = 4
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.gray.cgColor
         
         customLabel.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
         customLabel.textAlignment = .center
@@ -32,11 +34,12 @@ class ListCell: UICollectionViewCell {
         customLabel.text = "Unknown"
         addSubview(customLabel)
         
-        backgroundColor = .clear
+        backgroundColor = .white
     }
     
     override func prepareForReuse() {
         customLabel.text = "Unknown"
-        backgroundColor = .clear
+        backgroundColor = .white
+        layer.borderColor = UIColor.gray.cgColor
     }
 }

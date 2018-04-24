@@ -15,7 +15,7 @@ final public class ColoredItem : DraggableItem {
     
     public required init() {
         self.name = "Random"
-        self.color = .clear
+        self.color = .white
     }
     
     public init(_ name: String) {
@@ -23,7 +23,7 @@ final public class ColoredItem : DraggableItem {
         if let color = UIColor.named(name) {
             self.color = color
         } else {
-            self.color = .clear
+            self.color = .white
         }
     }
     
